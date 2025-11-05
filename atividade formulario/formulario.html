@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cálculo de Média do Aluno</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+    }
+
+    h1 {
+      color: #333;
+      margin-top: 30px;
+    }
+
+    form {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      width: 320px;
+      margin-top: 20px;
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    button {
+      margin-top: 15px;
+      width: 100%;
+      padding: 10px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+
+    #resultado {
+      margin-top: 25px;
+      padding: 15px;
+      width: 320px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      text-align: left;
+    }
+
+    .aprovado {
+      color: green;
+      font-weight: bold;
+    }
+
+    .exame {
+      color: orange;
+      font-weight: bold;
+    }
+
+    .reprovado {
+      color: red;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>Calculadora de Média Escolar</h1>
+
+  <form id="formMedia">
+    <label for="nome">Nome do aluno:</label>
+    <input type="text" id="nome" required />
+
+    <label for="nota1">Nota 1º Bimestre:</label>
+    <input type="number" id="nota1" step="0.1" min="0" max="10" required />
+
+    <label for="nota2">Nota 2º Bimestre:</label>
+    <input type="number" id="nota2" step="0.1" min="0" max="10" required />
+
+    <button type="submit">Calcular Média</button>
+  </form>
+
+  <div id="resultado"></div>
+
+  <script>
+    const form = document.getElementById("formMedia");
+    const resultado = document.getElementById("resultado");
+
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      const nome = document.getElementById("nome").value.trim();
+      const nota1 = parseFloat(document.getElementById("nota1").value);
+      const nota2 = parseFloat(document.getElementById("nota2").value);
+
+      if (isNaN(nota1) || isNaN(nota2)) {
+        resultado.innerHTML = "<p style='color:red;'>Digite notas válidas!</p>";
+        return;
+      }
+
+      const media = (nota1 + nota2) / 2;
+      let situacao = "";
+      let classe = "";
+
+      if (media >= 6) {
+        situacao = "Aprovado";
+        classe = "aprovado";
+      } else if (media >= 2) {
+        situacao = "Exame Final";
+        classe = "exame";
+      } else {
+        situacao = "Reprovado";
+        classe = "reprovado";
+      }
+
+      resultado.innerHTML = `
+        <h3>Resultado</h3>
+        <p><strong>Nome:</strong> ${nome}</p>
+        <p><strong>Nota 1:</strong> ${nota1}</p>
+        <p><strong>Nota 2:</strong> ${nota2}</p>
+        <p><strong>Média:</strong> ${media.toFixed(1)}</p>
+        <p><strong>Situação:</strong> <span class="${classe}">${situacao}</span></p>
+      `;
+    });
+  </script>
+</body>
+</html>
